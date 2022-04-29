@@ -17,6 +17,7 @@ for (const file of commandFiles) {
 
 // Log
 client.once('ready', () => {
+    client.user.setStatus('invisible');
     console.log('Storywriter: Running.');
 });
 
