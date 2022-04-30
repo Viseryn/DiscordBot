@@ -78,7 +78,7 @@ const giveSuppeReplies = async function (interaction, watery, replies) {
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('süppé')
-        .setDescription('Gelüstet es dir nach einer warmen Süppé?')
+        .setDescription('Gelüstet es dich nach einer warmen Süppé?')
         .addMentionableOption(option =>
             option.setName('für')
                 .setDescription('Soll die Süppé etwa für jemand Besonderes sein?!')
