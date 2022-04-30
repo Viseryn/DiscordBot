@@ -47,12 +47,12 @@ client.once('ready', () => {
 
 client.on('interactionCreate', async interaction => {
     // Check whether interaction is a command
-	if (!interaction.isCommand()) return;
-	const command = client.commands.get(interaction.commandName);
+    if (!interaction.isCommand()) return;
+    const command = client.commands.get(interaction.commandName);
     if (!command) return;
 
     // If the interaction is an actual command, try to execute.
-	try {
+    try {
         await command.execute(interaction);
     } catch (error) {
         console.error(error);
