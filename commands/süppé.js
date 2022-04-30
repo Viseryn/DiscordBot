@@ -208,6 +208,7 @@ module.exports = {
 
         // Choose a random element
         let suppe = chooseRandomFromWeightedList(suppeList);
+        console.log(suppe);
 
         // Check if special event occurs
         if ('event' in suppe && suppe.event !== null) {
@@ -283,7 +284,8 @@ module.exports = {
         }
         // All the other normal cases
         else {
-            if (watery && suppe.wateryValue !== null) await interaction.reply(suppe.wateryValue);
+            if (watery && 'wateryValue' in suppe && suppe.wateryValue !== null) 
+                await interaction.reply(suppe.wateryValue);
             else await interaction.reply(suppe.value);
         }
     },
