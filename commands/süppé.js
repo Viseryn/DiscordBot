@@ -107,7 +107,7 @@ module.exports = {
             {
                 value: `Hallo ${mention}, ich habe eine Süppé für dich zubereitet. Sie ist versalzen, aber mir schmeckt sie.`,
                 wateryValue: `Hallo ${mention}, ich habe eine Süppé für dich zubereitet. Ich habe sie versalzen, damit sie nicht so wässrig wirkt!`,
-                weight: 0.05,
+                weight: 0.03,
             },
             {
                 value: `Hallo ${mention}, es gibt keine Süppé, sondern Brei. Mir muss ein Fehler bei der Zubereitung unterlaufen sein. ;x`,
@@ -145,26 +145,26 @@ module.exports = {
             },
             {
                 value: `Hallo ${randomUser}, ich gebe lieber dir die Süppé.`,
-                weight: 0,
+                weight: 0.03,
             },
             {
                 value: `Hallo ${mention}, es gibt Süppé. Ich habe aber ein Haar von ${randomUser} in der Süppé gefunden. Ekelick :!:`,
-                weight: 0,
+                weight: 0.02,
             },
             {
                 value: `Ich habe kaum noch Süppé übrig. Deswegen werde ich die Süppé jetzt mit ein wenig Wasser anreichern. :o`,
                 suppeAlmostEmpty: true,
-                weight: 0.1,
+                weight: 0.05,
             },
             {
                 value: `Hallo ${mention}, heute gibt es nur Suppe.`,
                 suppeEmpty: true,
-                weight: 0.01,
+                weight: 0.02,
             },
             {
                 value: `Hallo ${mention}, mir ist die Süppé ausgegangen. Ich fahre jetzt nach Berlin und kaufe mir neue. :o`,
                 suppeEmpty: true,
-                weight: 0.01,
+                weight: 0.02,
             },
             {
                 value: `Hallo ${mention}, mir ist die Süppé ausgegangen. Ich fahre jetzt mit meinem Wohnwagen nach Hamburg und kaufe mir neue. :o`,
@@ -208,7 +208,6 @@ module.exports = {
 
         // Choose a random element
         let suppe = chooseRandomFromWeightedList(suppeList);
-        console.log(suppe);
 
         // Check if special event occurs
         if ('event' in suppe && suppe.event !== null) {
@@ -284,7 +283,7 @@ module.exports = {
         }
         // All the other normal cases
         else {
-            if (watery && 'wateryValue' in suppe && suppe.wateryValue !== null) 
+            if (watery && 'wateryValue' in suppe) 
                 await interaction.reply(suppe.wateryValue);
             else await interaction.reply(suppe.value);
         }
