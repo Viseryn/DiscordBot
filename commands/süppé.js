@@ -38,6 +38,41 @@ const chooseRandomFromWeightedList = (list) => {
 
 
 /**
+ * giveSuppeReply
+ * @param
+ * @returns
+ */
+const giveSuppeReplies = async function (interaction, watery, replies) {
+    await interaction.deferReply();
+
+    let timestamp, datetime;
+
+    for (let i = 0; i < replies.length; i++) {
+        timestamp = new Date();
+        datetime = timestamp.getDate() + "." 
+            + (timestamp.getMonth() + 1) + "." 
+            + timestamp.getFullYear() + " " 
+            + timestamp.getHours() + ":" 
+            + timestamp.getMinutes() + ":" 
+            + timestamp.getSeconds();
+
+        if (watery && 'wateryValue' in replies[i]) {
+            i === 0 
+                ? await interaction.editReply(replies[i].wateryValue) 
+                : await interaction.followUp(replies[i].wateryValue);
+            console.log(datetime + ' ', replies[i]);
+        } else {
+            i === 0 
+                ? await interaction.editReply(replies[i].value) 
+                : await interaction.followUp(replies[i].value);
+            console.log(datetime + ' ', replies[i]);
+        }
+
+        if ('wait' in replies[i]) await wait(replies[i].wait);
+    }
+};
+
+/**
  * Command: /süppé [user]
  */
 module.exports = {
@@ -65,129 +100,310 @@ module.exports = {
         // List of Süppé-replies
         const suppeList = [
             {
-                value: `Hallo ${mention}, es gibt Süppé.`,
-                wateryValue: `Hallo ${mention}, es gibt Süppé. Ich habe sie mit Wasser gestreckt, weil sie mir langsam ausgeht. :x`,
                 weight: 0.1,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, es gibt Süppé.`,
+                        wateryValue: `Hallo ${mention}, es gibt Süppé. Ich habe sie mit Wasser gestreckt, weil sie mir langsam ausgeht. :x`,
+                    },
+                ],
             },
             {
-                value: `Hallo ${mention}, ich habe eine schmackhafte Süppé für dich gekocht.`,
-                wateryValue: `Hallo ${mention}, ich habe eine schmackhafte Süppé für dich gekocht. Ich meine, sie wär schmackhaft, wenn sie nicht so wässrig wäre. :x`,
                 weight: 0.05,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, ich habe eine schmackhafte Süppé für dich gekocht.`,
+                        wateryValue: `Hallo ${mention}, ich habe eine schmackhafte Süppé für dich gekocht. Ich meine, sie wär schmackhaft, wenn sie nicht so wässrig wäre. :x`,
+                    },
+                ],
             },
             {
-                value: `Hallo ${mention}, ich habe dir eine Süppé zubereitet. Sie ist warm und köstlich.`,
-                wateryValue: `Hallo ${mention}, es sollte eigentlich Süppé geben. Aber es schmeckt wie heißes Wasser. :<`,
                 weight: 0.05,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, ich habe dir eine Süppé zubereitet. Sie ist warm und köstlich.`,
+                        wateryValue: `Hallo ${mention}, es sollte eigentlich Süppé geben. Aber es schmeckt wie heißes Wasser. :<`,
+                    },
+                ],
             },
             {
-                value: `Hallo ${mention}, es gibt Süppé. Sie duftet so toll. :3`,
-                wateryValue: `Hallo ${mention}, es gibt Süppé. Sie duftet so wässrig. :roll:`,
                 weight: 0.05,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, es gibt Süppé. Sie duftet so toll. :3`,
+                        wateryValue: `Hallo ${mention}, es gibt Süppé. Sie duftet so wässrig. :roll:`,
+                    },
+                ],
             },
             {
-                value: `Hallo ${mention}, es gibt Süppé. Sie ist mir heute besonders gelungen. :o`,
-                wateryValue: `Hallo ${mention}, es gibt Wasser. Es ist mir heute besonders süppíg gelungen.`,
                 weight: 0.05,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, es gibt Süppé. Sie ist mir heute besonders gelungen. :o`,
+                        wateryValue: `Hallo ${mention}, es gibt Wasser. Es ist mir heute besonders süppíg gelungen.`,
+                    },
+                ],
             },
             {
-                value: `Hallo ${mention}, es gibt Süppé. Ich habe sie heute scharf gewürzt. :3`,
-                wateryValue: `Hallo ${mention}, es gibt Süppé. Ich habe sie heute scharf gewürzt, damit man das Wässrige nicht so herausschmeckt. :x`,
                 weight: 0.05,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, es gibt Süppé. Ich habe sie heute scharf gewürzt. :3`,
+                        wateryValue: `Hallo ${mention}, es gibt Süppé. Ich habe sie heute scharf gewürzt, damit man das Wässrige nicht so herausschmeckt. :x`,
+                    },
+                ],
             },
             {
-                value: `Hallo ${mention}, es gibt gar keine Süppé. Ich habe sie selbst gegessen. Hihi. :3`,
-                wateryValue: `Hallo ${mention}, es gibt gar keine Süppé. Ich habe sie selbst gegessen, aber sie war so wässrig. ;<`,
                 weight: 0.02,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, es gibt gar keine Süppé. Ich habe sie selbst gegessen. Hihi. :3`,
+                        wateryValue: `Hallo ${mention}, es gibt gar keine Süppé. Ich habe sie selbst gegessen, aber sie war so wässrig. ;<`,
+                    },
+                ],
             },
             {
-                value: `Hallo ${mention}, es tut mir leider gar nicht leid, aber ich habe die ganze Süppé auf dich geschüttet. Gnihihi. :>`,
-                wateryValue: `Hallo ${mention}, es tut mir leider gar nicht leid, aber ich habe die ganze Süppé auf dich geschüttet. Sie wär auch viel zu wässrig zum Essen gewesen.`,
                 weight: 0.03,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, es tut mir leider gar nicht leid, aber ich habe die ganze Süppé auf dich geschüttet. Gnihihi. :>`,
+                        wateryValue: `Hallo ${mention}, es tut mir leider gar nicht leid, aber ich habe die ganze Süppé auf dich geschüttet. Sie wär auch viel zu wässrig zum Essen gewesen.`,
+                    },
+                ],
             },
             {
-                value: `Hallo ${mention}, ich habe eine Süppé für dich zubereitet. Sie ist versalzen, aber mir schmeckt sie.`,
-                wateryValue: `Hallo ${mention}, ich habe eine Süppé für dich zubereitet. Ich habe sie versalzen, damit sie nicht so wässrig wirkt!`,
                 weight: 0.03,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, ich habe eine Süppé für dich zubereitet. Sie ist versalzen, aber mir schmeckt sie.`,
+                        wateryValue: `Hallo ${mention}, ich habe eine Süppé für dich zubereitet. Ich habe sie versalzen, damit sie nicht so wässrig wirkt!`,
+                    },
+                ],
             },
             {
-                value: `Hallo ${mention}, es gibt keine Süppé, sondern Brei. Mir muss ein Fehler bei der Zubereitung unterlaufen sein. ;x`,
-                wateryValue: `Hallo ${mention}, es gibt Süppé. Leider ist sie wässrig geworden. Ich hätte einen Kübel Wasser weniger reinkippen sollen.`,
                 weight: 0.05,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, es gibt keine Süppé, sondern Brei. Mir muss ein Fehler bei der Zubereitung unterlaufen sein. ;x`,
+                        wateryValue: `Hallo ${mention}, es gibt Süppé. Leider ist sie wässrig geworden. Ich hätte einen Kübel Wasser weniger reinkippen sollen.`,
+                    },
+                ],
             },
             {
-                value: `Hallo ${mention}, es gibt Süppé. Leider ist sie mir angebrannt. ;<`,
-                wateryValue: `Hallo ${mention}, es gibt Süppé. Sie ist mir leider angebrannt. Und dann ist sie noch wässrig. Ich schäme mich ja so. :<`,
                 weight: 0.02,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, es gibt Süppé. Leider ist sie mir angebrannt. ;<`,
+                        wateryValue: `Hallo ${mention}, es gibt Süppé. Sie ist mir leider angebrannt. Und dann ist sie noch wässrig. Ich schäme mich ja so. :<`,
+                    },
+                ],
             },
             {
-                value: `Hallo ${mention}, heute wärme ich Süppé vom Vortag auf :!:`,
-                wateryValue: `Hallo ${mention}, heute wärme ich Süppé vom Vortag auf. Die ist wenigstens nicht wässrig. :3`,
                 weight: 0.03,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, heute wärme ich Süppé vom Vortag auf :!:`,
+                        wateryValue: `Hallo ${mention}, heute wärme ich Süppé vom Vortag auf. Die ist wenigstens nicht wässrig. :3`,
+                    },
+                ],
             },
             {
-                value: `Hallo ${mention}, es gibt Kuchen. Keine Ahnung, warum.`,
-                wateryValue: `Hallo ${mention}, es gibt Kuchen. Keine Ahnung, warum. Und irgendwie ist er wässrig.`,
                 weight: 0.05,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, es gibt Kuchen. Keine Ahnung, warum.`,
+                        wateryValue: `Hallo ${mention}, es gibt Kuchen. Keine Ahnung, warum. Und irgendwie ist er wässrig.`,
+                    },
+                ],
             },
             {
-                value: `Hallo ${mention}, es gibt Erdbeerkuchen. Keine Ahnung, warum.`,
-                wateryValue: `Hallo ${mention}, es gibt Erdbeerkuchen. Keine Ahnung, warum. Und irgendwie ist er wässrig.`,
                 weight: 0.03,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, es gibt Erdbeerkuchen. Keine Ahnung, warum.`,
+                        wateryValue: `Hallo ${mention}, es gibt Erdbeerkuchen. Keine Ahnung, warum. Und irgendwie ist er wässrig.`,
+                    },
+                ],
             },
             {
-                value: `Hallo ${mention}, es gibt Buttermilchkuchen. Keine Ahnung, warum.`,
-                wateryValue: `Hallo ${mention}, es gibt Buttermilchkuchen. Keine Ahnung, warum. Und irgendwie ist er wässrig.`,
                 weight: 0.02,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, es gibt Buttermilchkuchen. Keine Ahnung, warum.`,
+                        wateryValue: `Hallo ${mention}, es gibt Buttermilchkuchen. Keine Ahnung, warum. Und irgendwie ist er wässrig.`,
+                    },
+                ],
             },
             {
-                value: `Hallo ${mention}, ich hätte dir ja gern die Edelsüppé serviert, aber ich habe keine Elfenbeinteller mehr.`,
                 weight: 0.05,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, ich hätte dir ja gern die Edelsüppé serviert, aber ich habe keine Elfenbeinteller mehr.`,
+                    },
+                ],
             },
             {
-                value: `Hallo ${randomUser}, ich gebe lieber dir die Süppé.`,
                 weight: 0.03,
+                replies: [
+                    {
+                        value: `Hallo ${randomUser}, ich gebe lieber dir die Süppé.`,
+                    },
+                ],
             },
             {
-                value: `Hallo ${mention}, es gibt Süppé. Ich habe aber ein Haar von ${randomUser} in der Süppé gefunden. Ekelick :!:`,
                 weight: 0.02,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, es gibt Süppé. Ich habe aber ein Haar von ${randomUser} in der Süppé gefunden. Ekelick :!:`,
+                    },
+                ],
             },
             {
-                value: `Ich habe kaum noch Süppé übrig. Deswegen werde ich die Süppé jetzt mit ein wenig Wasser anreichern. :o`,
-                suppeAlmostEmpty: true,
                 weight: 0.05,
+                replies: [
+                    {
+                        value: `Ich habe kaum noch Süppé übrig. Deswegen werde ich die Süppé jetzt mit ein wenig Wasser anreichern. :o`,
+                    },
+                ],
+                event: 'suppeAlmostEmpty',
             },
             {
-                value: `Hallo ${mention}, heute gibt es nur Suppe.`,
-                suppeEmpty: true,
                 weight: 0.02,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, heute gibt es nur Suppe.`,
+                    },
+                ],
+                event: 'suppeEmpty',
             },
             {
-                value: `Hallo ${mention}, mir ist die Süppé ausgegangen. Ich fahre jetzt nach Berlin und kaufe mir neue. :o`,
-                suppeEmpty: true,
                 weight: 0.02,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, mir ist die Süppé ausgegangen. Ich fahre jetzt nach Berlin und kaufe mir neue. :o`,
+                    },
+                ],
+                event: 'suppeEmpty',
             },
             {
-                value: `Hallo ${mention}, mir ist die Süppé ausgegangen. Ich fahre jetzt mit meinem Wohnwagen nach Hamburg und kaufe mir neue. :o`,
-                suppeEmpty: true,
                 weight: 0.01,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, mir ist die Süppé ausgegangen. Ich fahre jetzt mit meinem Wohnwagen nach Hamburg und kaufe mir neue. :o`,
+                    },
+                ],
+                event: 'suppeEmpty',
             },
             {
-                value: `Hallo ${mention}, mir ist die Süppé ausgegangen. Ich trampe nach Dortmund und kaufe mir neue. :o`,
-                suppeEmpty: true,
                 weight: 0.01,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, mir ist die Süppé ausgegangen. Ich trampe nach Dortmund und kaufe mir neue. :o`,
+                    },
+                ],
+                event: 'suppeEmpty',
             },
             {
-                value: `Hallo ${mention}, mir ist die Süppé ausgegangen. Ich fliege jetzt nach Frankreich und protestiere. :o`,
-                suppeEmpty: true,
                 weight: 0.01,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, mir ist die Süppé ausgegangen. Ich fliege jetzt nach Frankreich und protestiere. :o`,
+                    },
+                ],
+                event: 'suppeEmpty',
             },
-            // The following have special events coded below:
-            { weight: 0.02, event: 'edelsuppe' },
-            { weight: 0.01, event: 'edelsuppe2' },
-            { weight: 0.04, event: 'sieb' },
-            { weight: 0.04, event: 'werfen' },
-            { weight: 0.01, event: 'omaewa' },
-            { weight: 0.03, event: 'abfall' },
+            {
+                id: 'edelsuppe',
+                weight: .02,
+                replies: [
+                    {
+                        value: blockQuote(bold('0o Es gibt Edelsüppé! 0o\n\n'))
+                            + `Hallo ${mention}, es gibt mit Blattgold garnierte Edelsüppé. Ich serviere sie heute auf teuren Elfenbeintellern.`,
+                        wateryValue: blockQuote(bold('0o Es gibt Edelsüppé! 0o\n\n'))
+                            + `Hallo ${mention}, es gibt mit Blattgold garnierte Edelsüppé. Ich serviere sie heute auf teuren Elfenbeintellern. Aber ich weiß nicht, irgendwie ist sie heute wässrig. :x`,
+                    },
+                ],
+            },
+            {
+                id: 'edelsuppe2',
+                weight: .01,
+                replies: [
+                    {
+                        value: blockQuote(bold('0o Es gibt besonders edle Edelsüppé! 0o\n\n'))
+                            + `Hallo ${mention}, es gibt mit Blattgold garnierte Edelsüppé mit Trüffeln und dazu ein Glas teuersten Champagner. Ich serviere sie heute auf teuren Elfenbeintellern und reiche dazu edelstes Silberbesteck.`,
+                    }
+                ],
+            },
+            {
+                id: 'sieb',
+                weight: .04,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, heute gibt es Süppé im Sieb. Ich habe keine Teller mehr gefunden. ᕙ(^▿^-ᕙ)`,
+                        wait: 20000,
+                    },
+                    {
+                        value: `Die Süppé tropft aus dem Sieb. :s`,
+                        wait: 20000,
+                    },
+                    {
+                        value: `Die Süppé tropft immer noch. :s`,
+                        wait: 20000,
+                    },
+                    {
+                        value: `Die Süppé kriecht am Boden lang ...`,
+                        wait: 20000,
+                    },
+                    {
+                        value: `Die Süppé wird fest. Man kann sie nun abschaben. :3`,
+                    },
+                ],
+                event: 'sieb',
+            },
+            {
+                id: 'werfen',
+                weight: .04,
+                replies: [
+                    {
+                        value: italic(`bewirft ${mention} mit Süppé.`),
+                        wateryValue: italic(`bewirft ${mention} mit wässriger Süppé.`),
+                        wait: 5000,
+                    },
+                    {
+                        value: `Huch, wie tollpatschig. :x`,
+                    },
+                ],
+            },
+            {
+                id: 'abfall',
+                weight: .01,
+                replies: [
+                    {
+                        value: `Hallo ${mention}, ich habe eine leckere Süppé aus Küchenabfällen für dich zubereitet.`,
+                        wait: 10000,
+                    },
+                    {
+                        value: `Wo ist eigentlich mein Putzlappen hin? D:`,
+                        wait: 5000,
+                    },
+                    {
+                        value: `Ich muss ihn wohl vorhin in die Süppé mit den Küchenabfällen geworfen haben. :x`,
+                    },
+                ],
+            },
+            {
+                id: 'omaewa',
+                weight: .03,
+                replies: [
+                    {
+                        value: `Omae wa mou shindeiru.`,
+                        wait: 5000,
+                    },
+                    {
+                        value: bold(`Nani??`),
+                    }
+                ],
+            },
         ];
 
         // Check plausability of weights in suppeList
@@ -200,9 +416,13 @@ module.exports = {
 
         // Check if süppé is on the ground 
         if (suppeOnGround) {
-            await interaction.reply(`Hallo ${mention}, ich serviere dir Süppé, die ich vom Boden abgeschabt habe. :3`);
+            giveSuppeReplies(interaction, watery, [{
+                    value: `Hallo ${mention}, ich serviere dir Süppé, die ich vom Boden abgeschabt habe. :3`,
+            }]);
+
             fileJSON.suppeOnGround = false;
             fs.writeFileSync(fileName, JSON.stringify(fileJSON));
+
             return;
         }
 
@@ -210,82 +430,29 @@ module.exports = {
         let suppe = chooseRandomFromWeightedList(suppeList);
 
         // Check if special event occurs
-        if ('event' in suppe && suppe.event !== null) {
+        if ('event' in suppe) {
             switch (suppe.event) {
-                case 'edelsuppe':
-                    await interaction.deferReply();
-                    if (watery) await interaction.editReply(
-                        blockQuote(bold('0o Es gibt Edelsüppé! 0o\n\n'))
-                        + `Hallo ${mention}, es gibt mit Blattgold garnierte Edelsüppé. Ich serviere sie heute auf teuren Elfenbeintellern. Aber ich weiß nicht, irgendwie ist sie heute wässrig. :x`
-                    );
-                    else await interaction.editReply(
-                        blockQuote(bold('0o Es gibt Edelsüppé! 0o\n\n'))
-                        + `Hallo ${mention}, es gibt mit Blattgold garnierte Edelsüppé. Ich serviere sie heute auf teuren Elfenbeintellern.`
-                    );
+                case 'suppeAlmostEmpty':
+                    fileJSON.watery = true;
+                    fs.writeFileSync(fileName, JSON.stringify(fileJSON));
+                    giveSuppeReplies(interaction, watery, suppe.replies);
                     break;
-                case 'edelsuppe2':
-                    await interaction.deferReply();
-                    await interaction.editReply(
-                        blockQuote(bold('0o Es gibt besonders edle Edelsüppé! 0o\n\n'))
-                        + `Hallo ${mention}, es gibt mit Blattgold garnierte Edelsüppé mit Trüffeln und dazu ein Glas teuersten Champagner. Ich serviere sie heute auf teuren Elfenbeintellern und reiche dazu edelstes Silberbesteck.`
-                    );
+                case 'suppeEmpty':
+                    fileJSON.watery = false;
+                    fs.writeFileSync(fileName, JSON.stringify(fileJSON));
+                    giveSuppeReplies(interaction, watery, suppe.replies);
                     break;
                 case 'sieb':
-                    await interaction.deferReply();
-                    await interaction.editReply(`Hallo ${mention}, heute gibt es Süppé im Sieb. Ich habe keine Teller mehr gefunden. ᕙ(^▿^-ᕙ)`);
-                    await wait(20000);
-                    await interaction.followUp(`Die Süppé tropft aus dem Sieb. :s`);
-                    await wait(20000);
-                    await interaction.followUp(`Die Süppé tropft immer noch. :s`);
-                    await wait(20000);
-                    await interaction.followUp(`Die Süppé kriecht am Boden lang ...`);
-                    await wait(20000);
-                    await interaction.followUp(`Die Süppé wird fest. Man kann sie nun abschaben. :3`);
+                    await giveSuppeReplies(interaction, watery, suppe.replies);
                     fileJSON.suppeOnGround = true;
                     fs.writeFileSync(fileName, JSON.stringify(fileJSON));
                     break;
-                case 'werfen':
-                    await interaction.deferReply();
-                    if (watery) await interaction.editReply(italic(`bewirft ${mention} mit wässriger Süppé.`));
-                    else await interaction.editReply(italic(`bewirft ${mention} mit Süppé.`));
-                    await wait(5000);
-                    await interaction.followUp(`Huch, wie tollpatschig. :x`);
-                    break;
-                case 'omaewa':
-                    await interaction.deferReply();
-                    await interaction.editReply(`Omae wa mou shindeiru.`);
-                    await wait(5000);
-                    await interaction.followUp(bold(`Nani??`));
-                    break;
-                case 'abfall':
-                    await interaction.deferReply();
-                    await interaction.editReply(`Hallo ${mention}, ich habe eine leckere Süppé aus Küchenabfällen für dich zubereitet.`);
-                    await wait(10000);
-                    await interaction.followUp(`Wo ist eigentlich mein Putzlappen hin? D:`);
-                    await wait(5000);
-                    await interaction.followUp(`Ich muss ihn wohl vorhin in die Süppé mit den Küchenabfällen geworfen haben. :x`);
-                    break;
             }
+
+            return;
         }
-        // Check if süppé is almost empty
-        // If yes, set watery = true
-        else if ('suppeAlmostEmpty' in suppe && suppe.suppeAlmostEmpty) {
-            fileJSON.watery = true;
-            fs.writeFileSync(fileName, JSON.stringify(fileJSON));
-            await interaction.reply(suppe.value);
-        }
-        // Check if süppé is empty
-        // If yes, set watery = false
-        else if ('suppeEmpty' in suppe && suppe.suppeEmpty) {
-            fileJSON.watery = false;
-            fs.writeFileSync(fileName, JSON.stringify(fileJSON));
-            await interaction.reply(suppe.value);
-        }
+
         // All the other normal cases
-        else {
-            if (watery && 'wateryValue' in suppe) 
-                await interaction.reply(suppe.wateryValue);
-            else await interaction.reply(suppe.value);
-        }
+        giveSuppeReplies(interaction, watery, suppe.replies);
     },
 };
