@@ -34,9 +34,9 @@ for (const file of commandFiles) {
  */
 
 client.once('ready', () => {
-    client.user.setStatus('dnd');
-    // client.user.setActivity('Test', { type: 'WATCHING' });
-    client.user.setActivity('Wird gerade richtig durchgetestet!');
+    client.user.setStatus('online');
+    client.user.setActivity('Süppé!', { type: 'WATCHING' });
+    // client.user.setActivity('Wird gerade richtig durchgetestet!');
     console.log('Storywriter: Running.');
 });
 
